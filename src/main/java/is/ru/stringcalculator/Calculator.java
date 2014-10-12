@@ -28,7 +28,4 @@ public class Calculator {
 		}
 		return total;
     }
-
-
-
 }
