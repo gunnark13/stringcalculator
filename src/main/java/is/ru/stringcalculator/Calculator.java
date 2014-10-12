@@ -4,7 +4,7 @@ public class Calculator {
 
 	public static int add(String text){
 		if(text.equals("")){
-			return 0;
+			return 0; // empty comment for first commit
 		}
 		else if(text.contains(",")){
 			return sum(splitNumbers(text));
