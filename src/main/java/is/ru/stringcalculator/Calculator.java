@@ -6,7 +6,7 @@ public class Calculator {
 		if(text.equals("")){
 			return 0; // empty comment for first commit
 		}
-		else if(text.contains(",") || text.matches("\n")){
+		else if(text.contains(",") || text.contains("\n")){
 			return sum(splitNumbers(text));
 		}
 		else
