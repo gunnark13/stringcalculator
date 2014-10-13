@@ -6,7 +6,7 @@ public class Calculator {
 		if(text.equals("")){
 			return 0; // empty comment for first commit
 		}
-		else if(text.contains(",")){
+		else if(text.contains(",") || text.matches("\n")){
 			return sum(splitNumbers(text));
 		}
 		else
@@ -18,7 +18,7 @@ public class Calculator {
 	}
 
 	private static String[] splitNumbers(String numbers){
-	    return numbers.split(",");
+	    return numbers.split(",|\\n");
 	}
       
     private static int sum(String[] numbers){
