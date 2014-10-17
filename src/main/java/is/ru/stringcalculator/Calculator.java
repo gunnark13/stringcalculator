@@ -13,8 +13,9 @@ public class Calculator {
 			String delimiter = text.substring(2,3);
 			return sum(splitNumbers(text));
 		}
-		else if()
+		else{
 			return 1;
+		}
 	}
 
 	private static int toInt(String number){
@@ -41,18 +42,26 @@ public class Calculator {
     private static int sum(String[] numbers){
  	    int total = 0;
         for(String number : numbers){
+        	if(toInt(number) < 0){
+        		String illegalMessage = IllegalArgumentMessage(numbers);
+        		throw new IllegalArgumentException(illegalMessage);
+        	}
+        	else{		    
+        		total += toInt(number);
+			}
 		}
 		return total;
     }
 
-    private static string IllegalArgumentMessage(String[] numbers){
+    private static String IllegalArgumentMessage(String[] numbers){
     	// construct a new illegalMessage with all the illegal numbers
     	String illegalMessage = "Negatives not allowed: ";
-    	for(int i = 0; i < numbers.length(); i++){
+    	for(int i = 0; i < numbers.length; i++){
     		if(numbers[i].contains("-")){
     			illegalMessage += numbers[i] + ",";
     		}
     	}
-    	illegalMessage = illegalMessage.substring(0, illegalMessage.length() - 1);
+    	// we have to trim the message so that is doesnt include the last comma
+    	return illegalMessage = illegalMessage.substring(0, illegalMessage.length() - 1);
     }
 }
