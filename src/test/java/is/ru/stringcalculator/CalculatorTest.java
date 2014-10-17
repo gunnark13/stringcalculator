@@ -58,4 +58,9 @@ public class CalculatorTest {
     public void numbersBiggerThan1000(){
     	assertEquals(2, Calculator.add("1001,2"));
     }
+
+   	@Test
+    public void multipleDelimiters(){
+    	assertEquals(6, Calculator.add("//[***]\n1***2***3"));
+    }
 }
