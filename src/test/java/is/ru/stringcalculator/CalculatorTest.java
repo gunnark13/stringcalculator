@@ -53,4 +53,9 @@ public class CalculatorTest {
 	    thrown.expectMessage(equalTo("Negatives not allowed: -1"));
 	    Calculator.add("-1,2");
 	}
+
+	@Test
+    public void numbersBiggerThan1000(){
+    	assertEquals(2, Calculator.add(“1001,2”));
+    }
 }
