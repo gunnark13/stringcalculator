@@ -60,7 +60,7 @@ public class CalculatorTest {
     }
 
    	@Test
-    public void multipleDelimiters(){
+    public void delimiterOfAnyLength(){
     	assertEquals(6, Calculator.add("//[***]\n1***2***3"));
     }
 }
