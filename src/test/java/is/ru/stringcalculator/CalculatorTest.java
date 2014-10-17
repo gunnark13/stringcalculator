@@ -38,4 +38,14 @@ public class CalculatorTest {
     public void testChangeTheDelimiterInBeginningOfString(){
     	assertEquals(3, Calculator.add("//;\n1;2"));
     }
+
+    @Rule
+	public ExpectedException thrown = ExpectedException.none();
+ 
+	@Test
+	public void throwsExceptionWhenNegativeNumbersAreGiven() {
+	    thrown.expect(IllegalArgumentException.class);
+	    thrown.expectMessage(equalTo("negatives not allowed: -1"));
+	    calculator.add("-1,2");
+	}
 }

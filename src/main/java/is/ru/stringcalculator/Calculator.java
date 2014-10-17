@@ -13,7 +13,7 @@ public class Calculator {
 			String delimiter = text.substring(2,3);
 			return sum(splitNumbers(text));
 		}
-		else
+		else if()
 			return 1;
 	}
 
@@ -41,8 +41,18 @@ public class Calculator {
     private static int sum(String[] numbers){
  	    int total = 0;
         for(String number : numbers){
-		    total += toInt(number);
 		}
 		return total;
+    }
+
+    private static string IllegalArgumentMessage(String[] numbers){
+    	// construct a new illegalMessage with all the illegal numbers
+    	String illegalMessage = "Negatives not allowed: ";
+    	for(int i = 0; i < numbers.length(); i++){
+    		if(numbers[i].contains("-")){
+    			illegalMessage += numbers[i] + ",";
+    		}
+    	}
+    	illegalMessage = illegalMessage.substring(0, illegalMessage.length() - 1);
     }
 }
