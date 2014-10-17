@@ -48,8 +48,13 @@ public class Calculator {
         		String illegalMessage = IllegalArgumentMessage(numbers);
         		throw new IllegalArgumentException(illegalMessage);
         	}
-        	else{		    
-        		total += toInt(number);
+        	else{
+        		if(toInt(number) > 1000) {
+        			total = total;
+        		}
+        		else{		    
+        			total += toInt(number);
+        		}
 			}
 		}
 		return total;
