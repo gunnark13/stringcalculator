@@ -9,6 +9,10 @@ public class Calculator {
 		else if(text.contains(",") || text.contains("\n")){
 			return sum(splitNumbers(text));
 		}
+		else if(text.startsWith("//")){
+			String delimiter = text.substring(2,3);
+			return sum(splitNumbers(text));
+		}
 		else
 			return 1;
 	}
@@ -18,7 +22,20 @@ public class Calculator {
 	}
 
 	private static String[] splitNumbers(String numbers){
-	    return numbers.split(",|\\n");
+	    if(numbers.startsWith("//")){
+	    	// we find the delimiter, and put it in a string.
+			String delimiter = numbers.substring(2,3);
+			// we make a new regex delimiter like [,\n;] if the delimiter is ;
+				delimiter = "[,\n" + delimiter + "]";
+			// find the index of the first newline
+				int index = numbers.indexOf("\n");
+			// trim the first newline and everything in front of it
+				numbers = numbers.substring(index + 1);
+			// split the string with our delimiter
+			return numbers.split(delimiter);
+    	}
+    	else
+    		return numbers.split(",|\n");
 	}
       
     private static int sum(String[] numbers){
