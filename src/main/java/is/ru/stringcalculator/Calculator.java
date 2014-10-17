@@ -20,23 +20,35 @@ public class Calculator {
 	}
 
 	private static String[] splitNumbers(String numbers){
+		String delimiter = "[" + ",\n" + "]";
 	    if(numbers.startsWith("//")){
-	    	String delimiter = "";
+	    	// where is the first newline
 	    	int indexOfNewline = numbers.indexOf("\n");
-
 	    	// if only one delimiter, we know newline comes as the third character.
 	    	if(numbers.indexOf("\n") == 3){
 		    	// we find the delimiter, and put it in a string.
 				delimiter = numbers.substring(2,3);
-				// we make a new regex delimiter like [,\n;] if the delimiter is ;
+				// we change the regex delimiter to [,\n;] if the delimiter is ";"
 				delimiter = "[,\n" + delimiter + "]";
-				// find the index of the first newline
-				// trim the first newline and everything in front of it
+				// trim the first newline and everything tha comes before it
 				numbers = numbers.substring(indexOfNewline + 1);
-				// split the string with our delimiter
+				// split the string with our new delimiters
 				return numbers.split(delimiter);
 			}	
-    	}			
+    				
+	   		// if the third character is an opening bracket, we will recieve an delimiter
+			// of length > 1
+			else if(numbers.indexOf("[") == 2){
+				// find where the delimiter ends
+				int indexOfClosingBracket = numbers.indexOf("]");
+				// change the delimiter to whats inside the brackets, and add the
+				// Match-One-Or-More operator to the regular expression.
+				delimiter = "[" + numbers.substring(3, indexOfClosingBracket) + "]+";
+				// cut the front off the string, so only the numbers and delimiters are left.
+				numbers = numbers.substring((indexOfNewline + 1));
+				return numbers.split(delimiter);
+			}
+		}
     	return numbers.split(",|\n");
 	}
       
@@ -50,11 +62,8 @@ public class Calculator {
         		throw new IllegalArgumentException(illegalMessage);
         	}
         	else
-        		if(toInt(number) > 1000){
-        			total = total;
-        		}
-        		else		    
-        			total += toInt(number);
+        		if(toInt(number) > 1000){total = total;}
+        		else{total += toInt(number);}
 		}
 		return total;
     }
