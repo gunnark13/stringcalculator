@@ -42,6 +42,8 @@ public class Calculator {
     private static int sum(String[] numbers){
  	    int total = 0;
         for(String number : numbers){
+        	// check if the number is < 0, then construct the illegalMessage
+        	// and throw the illegalArgumentException
         	if(toInt(number) < 0){
         		String illegalMessage = IllegalArgumentMessage(numbers);
         		throw new IllegalArgumentException(illegalMessage);
