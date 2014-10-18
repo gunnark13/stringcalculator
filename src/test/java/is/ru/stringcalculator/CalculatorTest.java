@@ -63,4 +63,10 @@ public class CalculatorTest {
     public void delimiterOfAnyLength(){
     	assertEquals(6, Calculator.add("//[***]\n1***2***3"));
     }
+    
+    @Test
+    public void allowMultipleDelimiters(){
+    	assertEquals(6, Calculator.add("//[*][%]\n1*2%3"));
+    }
+    
 }

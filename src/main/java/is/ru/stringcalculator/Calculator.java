@@ -12,7 +12,6 @@ public class Calculator {
 			return sum(splitNumbers(text));
 		}
 		else{return 1;} 
-			
 	}
 
 	private static int toInt(String number){
@@ -35,16 +34,38 @@ public class Calculator {
 				// split the string with our new delimiters
 				return numbers.split(delimiter);
 			}	
-    				
 	   		// if the third character is an opening bracket, we will recieve an delimiter
 			// of length > 1
-			else if(numbers.indexOf("[") == 2){
-				// change the delimiter to whats inside the brackets, and add the
-				// Match-One-Or-More operator to the regular expression.
-				delimiter = "[" + numbers.substring(3, numbers.indexOf("]")) + "]+";
-				// cut the front off the string, so only the numbers and delimiters are left.
-				numbers = numbers.substring((indexOfNewline + 1));
-				return numbers.split(delimiter);
+			else if(numbers.contains("[")){
+				int countDelimiters = 0;
+				String bracket = "[";
+				for(int i = 0; i < numbers.length(); i++){
+					if(numbers.substring(i, i + 1).equals("[")){
+						countDelimiters++;
+					}
+				}
+				if(countDelimiters < 2){				
+					// change the delimiter to whats inside the brackets, and add the
+					// Match-One-Or-More operator to the regular expression.
+					delimiter = "[" + numbers.substring(3, numbers.indexOf("]")) + "]+";
+					// cut the front off the string, so only the numbers and delimiters are left.
+					numbers = numbers.substring((indexOfNewline + 1));
+					return numbers.split(delimiter);
+				}
+				else{					
+					delimiter = "";
+					String temp = numbers.substring(2, indexOfNewline);
+					try {
+						while(temp.charAt(0) == '['){
+							delimiter +=	 temp.substring(1, temp.indexOf("]"));
+							temp = temp.substring(temp.indexOf("]") + 1);
+						}
+					} catch(StringIndexOutOfBoundsException a) {
+						delimiter = "[" + delimiter + "]+";
+						numbers = numbers.substring(indexOfNewline + 1);
+						return numbers.split(delimiter);
+					}
+				}
 			}
 		}
     	return numbers.split(",|\n");
@@ -68,14 +89,12 @@ public class Calculator {
 
     private static boolean CheckForDelimiterSlash(String text){
     	return text.startsWith("//");
-    }
+    }	
     private static String IllegalArgumentMessage(String[] numbers){
     	// construct a new illegalMessage with all the illegal numbers
     	String illegalMessage = "Negatives not allowed: ";
     	for(int i = 0; i < numbers.length; i++){
-    		if(numbers[i].contains("-")){
-    			illegalMessage += numbers[i] + ",";
-    		}
+    		if(numbers[i].contains("-")){illegalMessage += numbers[i] + ",";}
     	}
     	// we have to trim the message so that is doesnt include the last comma
     	return illegalMessage = illegalMessage.substring(0, illegalMessage.length() - 1);
