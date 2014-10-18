@@ -7,7 +7,7 @@ public class Calculator {
 		else if(text.contains(",") || text.contains("\n")){
 			return sum(splitNumbers(text));
 		}
-		else if(text.startsWith("//")){
+		else if(CheckForDelimiterSlash(text)){
 			String delimiter = text.substring(2,3);
 			return sum(splitNumbers(text));
 		}
@@ -21,7 +21,7 @@ public class Calculator {
 
 	private static String[] splitNumbers(String numbers){
 		String delimiter = "[" + ",\n" + "]";
-	    if(numbers.startsWith("//")){
+	    if(CheckForDelimiterSlash(numbers)){
 	    	// where is the first newline
 	    	int indexOfNewline = numbers.indexOf("\n");
 	    	// if only one delimiter, we know newline comes as the third character.
@@ -39,11 +39,9 @@ public class Calculator {
 	   		// if the third character is an opening bracket, we will recieve an delimiter
 			// of length > 1
 			else if(numbers.indexOf("[") == 2){
-				// find where the delimiter ends
-				int indexOfClosingBracket = numbers.indexOf("]");
 				// change the delimiter to whats inside the brackets, and add the
 				// Match-One-Or-More operator to the regular expression.
-				delimiter = "[" + numbers.substring(3, indexOfClosingBracket) + "]+";
+				delimiter = "[" + numbers.substring(3, numbers.indexOf("]")) + "]+";
 				// cut the front off the string, so only the numbers and delimiters are left.
 				numbers = numbers.substring((indexOfNewline + 1));
 				return numbers.split(delimiter);
@@ -68,6 +66,9 @@ public class Calculator {
 		return total;
     }
 
+    private static boolean CheckForDelimiterSlash(String text){
+    	return text.startsWith("//");
+    }
     private static String IllegalArgumentMessage(String[] numbers){
     	// construct a new illegalMessage with all the illegal numbers
     	String illegalMessage = "Negatives not allowed: ";
