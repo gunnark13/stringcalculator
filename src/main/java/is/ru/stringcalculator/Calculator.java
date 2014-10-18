@@ -20,10 +20,11 @@ public class Calculator {
 
 	private static String[] splitNumbers(String numbers){
 		String delimiter = "[" + ",\n" + "]";
+		// if the string starts with //
 	    if(CheckForDelimiterSlash(numbers)){
-	    	// where is the first newline
+	    	// locate the first newline
 	    	int indexOfNewline = numbers.indexOf("\n");
-	    	// if only one delimiter, we know newline comes as the third character.
+	    	// if only 1 delimiter of length 1, we know newline comes as the third character.
 	    	if(numbers.indexOf("\n") == 3){
 		    	// we find the delimiter, and put it in a string.
 				delimiter = numbers.substring(2,3);
@@ -35,8 +36,9 @@ public class Calculator {
 				return numbers.split(delimiter);
 			}	
 	   		// if the third character is an opening bracket, we will recieve an delimiter
-			// of length > 1
+			// of length > 1 or multiple delimiters
 			else if(numbers.contains("[")){
+				// count the number of delimiters
 				int countDelimiters = 0;
 				String bracket = "[";
 				for(int i = 0; i < numbers.length(); i++){
@@ -44,17 +46,23 @@ public class Calculator {
 						countDelimiters++;
 					}
 				}
+				// if we have one delimiter only
 				if(countDelimiters < 2){				
 					// change the delimiter to whats inside the brackets, and add the
 					// Match-One-Or-More operator to the regular expression.
 					delimiter = "[" + numbers.substring(3, numbers.indexOf("]")) + "]+";
-					// cut the front off the string, so only the numbers and delimiters are left.
+					// get rid of everything but the numbers and their delimiters.
 					numbers = numbers.substring((indexOfNewline + 1));
 					return numbers.split(delimiter);
 				}
 				else{					
 					delimiter = "";
+					// temp string so that we don't ruin the numbers string
+					// temp only contains the delimiters themselves, no numbers.
 					String temp = numbers.substring(2, indexOfNewline);
+					// we try and loop through the string until we go out of bounds,
+					// when we do we know there are no more delimiters, and return them
+					// when we catsh the StringIndexOutOfBoundsException.
 					try {
 						while(temp.charAt(0) == '['){
 							delimiter +=	 temp.substring(1, temp.indexOf("]"));
